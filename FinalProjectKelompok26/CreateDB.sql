@@ -6,9 +6,9 @@ USE EmployeeOvertimeSalaryManagement
 CREATE TABLE jobs (
     id VARCHAR(10) PRIMARY KEY NOT NULL,
     title VARCHAR(35) NOT NULL,
-	min_salary INT,
-	max_salary INT,
-	default_salary INT
+	min_salary INT DEFAULT 0,
+	max_salary INT DEFAULT 0,
+	default_salary INT DEFAULT 0
 );
 
 CREATE TABLE regions (
@@ -27,9 +27,9 @@ CREATE TABLE locations (
     id INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
     street_address VARCHAR(40),
 	postal_code VARCHAR(12),
-	city VARCHAR(30),
+	city VARCHAR(30) NOT NULL,
 	state_province VARCHAR(25),
-	country INT NOT NULL
+	country INT
 	CONSTRAINT fk_location_country FOREIGN KEY (country) REFERENCES countries(id)
 );
 
@@ -45,13 +45,13 @@ CREATE TABLE employees (
     first_name VARCHAR(25) NOT NULL,
 	last_name VARCHAR(25),
 	gender VARCHAR(10) DEFAULT 'male' NOT NULL,
-	email VARCHAR(25),
+	email VARCHAR(25) NOT NULL UNIQUE,
 	phone VARCHAR(20),
-	hire_date DATE,
-	salary INT,
+	hire_date DATE NOT NULL,
+	salary INT DEFAULT 0,
 	manager INT,
-	job VARCHAR(10),
-	department INT
+	job VARCHAR(10) NOT NULL,
+	department INT NOT NULL
 	CONSTRAINT fk_employee_manager FOREIGN KEY (manager) REFERENCES employees(id),
 	CONSTRAINT fk_employee_job FOREIGN KEY (job) REFERENCES jobs(id),
 	CONSTRAINT fk_employee_department FOREIGN KEY (department) REFERENCES departments(id),
@@ -62,11 +62,11 @@ CREATE TABLE employees (
 
 CREATE TABLE accounts (
     id INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
-    username VARCHAR(25) NOT NULL,
+    username VARCHAR(25),
 	password VARCHAR(255) NOT NULL,
-	otp INT,
-	is_used BIT,
-	is_expired DATETIME
+	otp INT NOT NULL,
+	is_used BIT DEFAULT 0,
+	is_expired DATETIME NOT NULL
 	CONSTRAINT fk_account_employee FOREIGN KEY (id) REFERENCES employees(id),
 );
 
@@ -99,11 +99,22 @@ CREATE TABLE account_roles (
 CREATE TABLE job_histories (
     employee_id INT PRIMARY KEY NOT NULL,
     start_date DATE NOT NULL,
-	end_date DATE NOT NULL,
-	status VARCHAR(10),
-	job INT,
-	department INT
+	end_date DATE,
+	status VARCHAR(10) NOT NULL,
+	job INT NOT NULL,
+	department INT NOT NULL
 	CONSTRAINT fk_job_employee FOREIGN KEY (employee_id) REFERENCES employees(id),
 	CONSTRAINT fk_job_department FOREIGN KEY (department) REFERENCES departments(id)
 );
 
+
+CREATE TABLE employee_overtime (
+    id INT PRIMARY KEY NOT NULL,
+	employee_id INT NOT NULL,
+    job VARCHAR NOT NULL,
+	month_year DATE,
+	status VARCHAR(10) NOT NULL,
+	overtime_count INT DEFAULT 0,
+	CONSTRAINT fk_overtime_employee FOREIGN KEY (employee_id) REFERENCES employees(id),
+	CONSTRAINT fk_overtime_job FOREIGN KEY (job) REFERENCES jobs(id)
+);
