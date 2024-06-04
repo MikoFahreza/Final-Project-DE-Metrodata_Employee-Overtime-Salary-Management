@@ -101,7 +101,7 @@ CREATE TABLE job_histories (
     start_date DATE NOT NULL,
 	end_date DATE,
 	status VARCHAR(10) NOT NULL,
-	job INT NOT NULL,
+	job VARCHAR(10) NOT NULL,
 	department INT NOT NULL
 	CONSTRAINT fk_job_employee FOREIGN KEY (employee_id) REFERENCES employees(id),
 	CONSTRAINT fk_job_department FOREIGN KEY (department) REFERENCES departments(id)
@@ -111,7 +111,7 @@ CREATE TABLE job_histories (
 CREATE TABLE employee_overtime (
     id INT PRIMARY KEY NOT NULL,
 	employee_id INT NOT NULL,
-    job VARCHAR NOT NULL,
+    job VARCHAR(10) NOT NULL,
 	month_year DATE,
 	status VARCHAR(10) NOT NULL,
 	overtime_count INT DEFAULT 0,
