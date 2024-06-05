@@ -1,11 +1,10 @@
 
 --JOBS
-
---Drop if it already exists
+--Drop the insert procedure if it already exists
 IF OBJECT_ID('InsertJob', 'P') IS NOT NULL
     DROP PROCEDURE InsertJob;
 GO
---Stored Procedure untuk insert table jobs
+-- Create the insert procedure
 CREATE PROCEDURE InsertJob
     @id VARCHAR(10),
     @title VARCHAR(35),
@@ -19,11 +18,11 @@ BEGIN
 END;
 GO
 
---Drop if it already exists
+--Drop the insert procedure if it already exists
 IF OBJECT_ID('UpdateJob', 'P') IS NOT NULL
     DROP PROCEDURE UpdateJob;
 GO
---Stored Procedure untuk update table jobs
+-- Create the update procedure
 CREATE PROCEDURE UpdateJob
     @id VARCHAR(10),
     @title VARCHAR(35),
@@ -41,10 +40,24 @@ BEGIN
 END;
 GO
 
+-- Drop the delete procedure for jobs if it already exists
+IF OBJECT_ID('DeleteJob', 'P') IS NOT NULL
+    DROP PROCEDURE DeleteJob;
+GO
+-- Create the delete procedure for jobs
+CREATE PROCEDURE DeleteJob
+    @id VARCHAR(10)
+AS
+BEGIN
+    DELETE FROM jobs
+    WHERE id = @id;
+END;
+GO
+
+
 
 --REGIONS
-
--- Drop if it already exists
+-- Drop the insert procedure if it already exists
 IF OBJECT_ID('InsertRegion', 'P') IS NOT NULL
     DROP PROCEDURE InsertRegion;
 GO
@@ -59,7 +72,7 @@ BEGIN
 END;
 GO
 
--- Drop the procedure if it already exists
+-- Drop the update procedure if it already exists
 IF OBJECT_ID('UpdateRegion', 'P') IS NOT NULL
     DROP PROCEDURE UpdateRegion;
 GO
@@ -76,10 +89,24 @@ BEGIN
 END;
 GO
 
+-- Drop the delete procedure for regions if it already exists
+IF OBJECT_ID('DeleteRegion', 'P') IS NOT NULL
+    DROP PROCEDURE DeleteRegion;
+GO
+-- Create the delete procedure for regions
+CREATE PROCEDURE DeleteRegion
+    @id INT
+AS
+BEGIN
+    DELETE FROM regions
+    WHERE id = @id;
+END;
+GO
+
+
 
 --COUNTRIES
-
--- Drop the procedure if it already exists
+-- Drop the insert procedure if it already exists
 IF OBJECT_ID('InsertCountry', 'P') IS NOT NULL
     DROP PROCEDURE InsertCountry;
 GO
@@ -95,7 +122,7 @@ BEGIN
 END;
 GO
 
--- Drop the procedure if it already exists
+-- Drop the update procedure if it already exists
 IF OBJECT_ID('UpdateCountry', 'P') IS NOT NULL
     DROP PROCEDURE UpdateCountry;
 GO
@@ -113,11 +140,26 @@ BEGIN
     WHERE id = @id;
 END;
 GO
--------------------------------------------------------------------------
 
---------------------------------LOCATIONS--------------------------------
+-- Drop the delete procedure for countries if it already exists
+IF OBJECT_ID('DeleteCountry', 'P') IS NOT NULL
+    DROP PROCEDURE DeleteCountry;
+GO
+-- Create the delete procedure for countries
+CREATE PROCEDURE DeleteCountry
+    @id INT
+AS
+BEGIN
+    DELETE FROM countries
+    WHERE id = @id;
+END;
+GO
 
--- Drop the procedure if it already exists
+
+
+--LOCATIONS
+
+-- Drop the insert procedure if it already exists
 IF OBJECT_ID('InsertLocation', 'P') IS NOT NULL
     DROP PROCEDURE InsertLocation;
 GO
@@ -136,7 +178,23 @@ BEGIN
 END;
 GO
 
--- Drop the procedure if it already exists
+-- Drop the delete procedure for locations if it already exists
+IF OBJECT_ID('DeleteLocation', 'P') IS NOT NULL
+    DROP PROCEDURE DeleteLocation;
+GO
+-- Create the delete procedure for locations
+CREATE PROCEDURE DeleteLocation
+    @id INT
+AS
+BEGIN
+    DELETE FROM locations
+    WHERE id = @id;
+END;
+GO
+
+
+
+-- Drop the update procedure if it already exists
 IF OBJECT_ID('UpdateLocation', 'P') IS NOT NULL
     DROP PROCEDURE UpdateLocation;
 GO
@@ -163,8 +221,7 @@ GO
 
 
 --DEPARTMENTS
-
--- Drop the procedure if it already exists
+-- Drop the insert procedure if it already exists
 IF OBJECT_ID('InsertDepartment', 'P') IS NOT NULL
     DROP PROCEDURE InsertDepartment;
 GO
@@ -180,7 +237,7 @@ BEGIN
 END;
 GO
 
--- Drop the procedure if it already exists
+-- Drop the update procedure if it already exists
 IF OBJECT_ID('UpdateDepartment', 'P') IS NOT NULL
     DROP PROCEDURE UpdateDepartment;
 GO
@@ -200,6 +257,7 @@ END;
 GO
 
 
+--EMPLOYEES
 -- Drop the insert procedure if it already exists
 IF OBJECT_ID('InsertEmployee', 'P') IS NOT NULL
     DROP PROCEDURE InsertEmployee;
@@ -263,7 +321,6 @@ GO
 IF OBJECT_ID('DeleteEmployee', 'P') IS NOT NULL
     DROP PROCEDURE DeleteEmployee;
 GO
-
 -- Create the delete procedure for employees
 CREATE PROCEDURE DeleteEmployee
     @id INT
@@ -275,6 +332,7 @@ END;
 GO
 
 
+--ACCOUNTS
 -- Drop the insert procedure if it already exists
 IF OBJECT_ID('InsertAccount', 'P') IS NOT NULL
     DROP PROCEDURE InsertAccount;
@@ -319,11 +377,11 @@ END;
 GO
 
 
--- Drop the insert procedure if it already exists
+--PERMISSION
+-- Drop the procedure if it already exists
 IF OBJECT_ID('InsertPermission', 'P') IS NOT NULL
     DROP PROCEDURE InsertPermission;
 GO
-
 -- Create the insert procedure
 CREATE PROCEDURE InsertPermission
     @name VARCHAR(100)
@@ -334,11 +392,10 @@ BEGIN
 END;
 GO
 
--- Drop the update procedure if it already exists
+-- Drop the procedure if it already exists
 IF OBJECT_ID('UpdatePermission', 'P') IS NOT NULL
     DROP PROCEDURE UpdatePermission;
 GO
-
 -- Create the update procedure
 CREATE PROCEDURE UpdatePermission
     @id INT,
@@ -351,7 +408,23 @@ BEGIN
 END;
 GO
 
+-- Drop the delete procedure for permissions if it already exists
+IF OBJECT_ID('DeletePermission', 'P') IS NOT NULL
+    DROP PROCEDURE DeletePermission;
+GO
+-- Create the delete procedure for permissions
+CREATE PROCEDURE DeletePermission
+    @id INT
+AS
+BEGIN
+    DELETE FROM permissions
+    WHERE id = @id;
+END;
+GO
 
+
+
+--ROLES
 -- Drop the insert procedure if it already exists
 IF OBJECT_ID('InsertRole', 'P') IS NOT NULL
     DROP PROCEDURE InsertRole;
@@ -384,7 +457,23 @@ BEGIN
 END;
 GO
 
+-- Drop the delete procedure for roles if it already exists
+IF OBJECT_ID('DeleteRole', 'P') IS NOT NULL
+    DROP PROCEDURE DeleteRole;
+GO
+-- Create the delete procedure for roles
+CREATE PROCEDURE DeleteRole
+    @id INT
+AS
+BEGIN
+    DELETE FROM roles
+    WHERE id = @id;
+END;
+GO
 
+
+
+--ROLE PERMISSIONS
 -- Drop the insert procedure if it already exists
 IF OBJECT_ID('InsertRolePermission', 'P') IS NOT NULL
     DROP PROCEDURE InsertRolePermission;
@@ -420,7 +509,23 @@ BEGIN
 END;
 GO
 
+-- Drop the delete procedure for role_permissions if it already exists
+IF OBJECT_ID('DeleteRolePermission', 'P') IS NOT NULL
+    DROP PROCEDURE DeleteRolePermission;
+GO
+-- Create the delete procedure for role_permissions
+CREATE PROCEDURE DeleteRolePermission
+    @id INT
+AS
+BEGIN
+    DELETE FROM role_permissions
+    WHERE id = @id;
+END;
+GO
 
+
+
+--ACCOUNT ROLES
 -- Drop the insert procedure if it already exists
 IF OBJECT_ID('InsertAccountRole', 'P') IS NOT NULL
     DROP PROCEDURE InsertAccountRole;
@@ -456,13 +561,27 @@ BEGIN
 END;
 GO
 
+-- Drop the delete procedure for account_roles if it already exists
+IF OBJECT_ID('DeleteAccountRole', 'P') IS NOT NULL
+    DROP PROCEDURE DeleteAccountRole;
+GO
+-- Create the delete procedure for account_roles
+CREATE PROCEDURE DeleteAccountRole
+    @id INT
+AS
+BEGIN
+    DELETE FROM account_roles
+    WHERE id = @id;
+END;
+GO
 
+
+
+--JOB HISTORY
 -- Drop the insert procedure if it already exists
 IF OBJECT_ID('InsertJobHistory', 'P') IS NOT NULL
     DROP PROCEDURE InsertJobHistory;
 GO
-
-
 -- Create the insert procedure
 CREATE PROCEDURE InsertJobHistory
     @employee_id INT,
@@ -482,7 +601,6 @@ GO
 IF OBJECT_ID('UpdateJobHistory', 'P') IS NOT NULL
     DROP PROCEDURE UpdateJobHistory;
 GO
-
 -- Create the update procedure
 CREATE PROCEDURE UpdateJobHistory
     @employee_id INT,
@@ -499,6 +617,20 @@ BEGIN
         status = @status,
         job = @job,
         department = @department
+    WHERE employee_id = @employee_id;
+END;
+GO
+
+-- Drop the delete procedure for job_histories if it already exists
+IF OBJECT_ID('DeleteJobHistory', 'P') IS NOT NULL
+    DROP PROCEDURE DeleteJobHistory;
+GO
+-- Create the delete procedure for job_histories
+CREATE PROCEDURE DeleteJobHistory
+    @employee_id INT
+AS
+BEGIN
+    DELETE FROM job_histories
     WHERE employee_id = @employee_id;
 END;
 GO
