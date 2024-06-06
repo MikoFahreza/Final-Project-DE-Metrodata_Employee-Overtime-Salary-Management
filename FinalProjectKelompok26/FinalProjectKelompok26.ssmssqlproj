@@ -25,6 +25,12 @@
           <AssociatedConnUserName />
           <FullPath>CreateDB.sql</FullPath>
         </FileNode>
+        <FileNode Name="Insert Table.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:DESKTOP-SI93PN2\MSSQLSERVER01:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>DESKTOP-SI93PN2\MSSQLSERVER01</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>Insert Table.sql</FullPath>
+        </FileNode>
         <FileNode Name="Stored Procedure.sql">
           <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:DESKTOP-SI93PN2\MSSQLSERVER01:True</AssociatedConnectionMoniker>
           <AssociatedConnSrvName>DESKTOP-SI93PN2\MSSQLSERVER01</AssociatedConnSrvName>

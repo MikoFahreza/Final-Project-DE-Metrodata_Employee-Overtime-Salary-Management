@@ -636,3 +636,63 @@ END;
 GO
 
 
+
+--EMPLOYEE EVERTIME
+
+-- Drop the insert procedure for employee_overtime if it already exists
+IF OBJECT_ID('InsertEmployeeOvertime', 'P') IS NOT NULL
+    DROP PROCEDURE InsertEmployeeOvertime;
+GO
+-- Create the insert procedure
+CREATE PROCEDURE InsertEmployeeOvertime
+    @employee_id INT,
+    @job VARCHAR(10),
+    @month_year DATE,
+    @status VARCHAR(10),
+    @overtime_count INT
+AS
+BEGIN
+    INSERT INTO employee_overtime (employee_id, job, month_year, status, overtime_count)
+    VALUES (@employee_id, @job, @month_year, @status, @overtime_count);
+END;
+GO
+
+-- Drop the update procedure for employee_overtime if it already exists
+IF OBJECT_ID('UpdateEmployeeOvertime', 'P') IS NOT NULL
+    DROP PROCEDURE UpdateEmployeeOvertime;
+GO
+--Create the update procedure
+CREATE PROCEDURE UpdateEmployeeOvertime
+    @id INT,
+    @employee_id INT,
+    @job VARCHAR(10),
+    @month_year DATE,
+    @status VARCHAR(10),
+    @overtime_count INT
+AS
+BEGIN
+    UPDATE employee_overtime
+    SET employee_id = @employee_id,
+        job = @job,
+        month_year = @month_year,
+        status = @status,
+        overtime_count = @overtime_count
+    WHERE id = @id;
+END;
+GO
+
+-- Drop the delete procedure for employee_overtime if it already exists
+IF OBJECT_ID('DeleteEmployeeOvertime', 'P') IS NOT NULL
+    DROP PROCEDURE DeleteEmployeeOvertime;
+GO
+--Create the delete procedure
+CREATE PROCEDURE DeleteEmployeeOvertime
+    @id INT
+AS
+BEGIN
+    DELETE FROM employee_overtime
+    WHERE id = @id;
+END;
+GO
+
+
