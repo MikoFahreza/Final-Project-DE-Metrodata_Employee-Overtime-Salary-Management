@@ -142,25 +142,28 @@ EXEC InsertAccountRole 10, 10;
 GO
 
 -- Insert 10 rows into job_histories table
-EXEC InsertJobHistory 1, '2021-01-01', '2022-01-01', 'Active', 'J001', 1;
-EXEC InsertJobHistory 2, '2021-02-01', '2022-02-01', 'Active', 'J002', 2;
-EXEC InsertJobHistory 3, '2021-03-01', '2022-03-01', 'Active', 'J003', 3;
-EXEC InsertJobHistory 4, '2021-04-01', '2022-04-01', 'Active', 'J004', 4;
-EXEC InsertJobHistory 5, '2021-05-01', '2022-05-01', 'Active', 'J005', 5;
-EXEC InsertJobHistory 6, '2021-06-01', '2022-06-01', 'Active', 'J006', 6;
-EXEC InsertJobHistory 7, '2021-07-01', '2022-07-01', 'Active', 'J007', 7;
-EXEC InsertJobHistory 8, '2021-08-01', '2022-08-01', 'Active', 'J008', 8;
-EXEC InsertJobHistory 9, '2021-09-01', '2022-09-01', 'Active', 'J009', 9;
-EXEC InsertJobHistory 10, '2021-10-01', '2022-10-01', 'Active', 'J010', 10;
+EXEC InsertJobHistory 1, '2021-01-01', '2022-01-01', 'Active', 'J1', 1;
+EXEC InsertJobHistory 2, '2021-02-01', '2022-02-01', 'Active', 'J2', 2;
+EXEC InsertJobHistory 3, '2021-03-01', '2022-03-01', 'Active', 'J3', 3;
+EXEC InsertJobHistory 4, '2021-04-01', '2022-04-01', 'Active', 'J4', 4;
+EXEC InsertJobHistory 5, '2021-05-01', '2022-05-01', 'Active', 'J5', 5;
+EXEC InsertJobHistory 6, '2021-06-01', '2022-06-01', 'Active', 'J6', 6;
+EXEC InsertJobHistory 7, '2021-07-01', '2022-07-01', 'Active', 'J7', 7;
+EXEC InsertJobHistory 8, '2021-08-01', '2022-08-01', 'Active', 'J8', 8;
+EXEC InsertJobHistory 9, '2021-09-01', '2022-09-01', 'Active', 'J9', 9;
+EXEC InsertJobHistory 10, '2021-10-01', '2022-10-01', 'Active', 'J10', 10;
 
 -- Insert 10 rows into employee_overtime table
-EXEC InsertEmployeeOvertime 1, 'Job1', '2024-01-01', 'Active', 5;
-EXEC InsertEmployeeOvertime 2, 'Job2', '2024-02-01', 'Active', 8;
-EXEC InsertEmployeeOvertime 3, 'Job3', '2024-03-01', 'Active', 10;
-EXEC InsertEmployeeOvertime 4, 'Job4', '2024-04-01', 'Active', 7;
-EXEC InsertEmployeeOvertime 5, 'Job5', '2024-05-01', 'Active', 6;
-EXEC InsertEmployeeOvertime 6, 'Job6', '2024-06-01', 'Active', 9;
-EXEC InsertEmployeeOvertime 7, 'Job7', '2024-07-01', 'Active', 4;
-EXEC InsertEmployeeOvertime 8, 'Job8', '2024-08-01', 'Active', 3;
-EXEC InsertEmployeeOvertime 9, 'Job9', '2024-09-01', 'Active', 5;
-EXEC InsertEmployeeOvertime 10, 'Job10', '2024-10-01', 'Active', 7;
+EXEC InsertEmployeeOvertime 1, 'J1', '2024-01-01', 'Active', 5;
+EXEC InsertEmployeeOvertime 2, 'J2', '2024-02-01', 'Active', 8;
+EXEC InsertEmployeeOvertime 3, 'J3', '2024-03-01', 'Active', 10;
+EXEC InsertEmployeeOvertime 4, 'J4', '2024-04-01', 'Active', 7;
+EXEC InsertEmployeeOvertime 5, 'J5', '2024-05-01', 'Active', 6;
+EXEC InsertEmployeeOvertime 6, 'J6', '2024-06-01', 'Active', 9;
+EXEC InsertEmployeeOvertime 7, 'J7', '2024-07-01', 'Active', 4;
+EXEC InsertEmployeeOvertime 8, 'J8', '2024-08-01', 'Active', 3;
+EXEC InsertEmployeeOvertime 9, 'J9', '2024-09-01', 'Active', 5;
+EXEC InsertEmployeeOvertime 10, 'J10', '2024-10-01', 'Active', 7;
+
+SELECT * FROM employee_overtime;
+SELECT * FROM job_histories;
