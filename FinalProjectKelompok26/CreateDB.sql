@@ -1,7 +1,7 @@
 CREATE DATABASE EmployeeOvertimeSalaryManagement
 GO
 
-USE EmployeeOvertimeSalaryManagement
+USE EmployeeOvertimeSalaryManagement;
 
 CREATE TABLE jobs (
     id VARCHAR(10) PRIMARY KEY NOT NULL,
@@ -63,7 +63,7 @@ CREATE TABLE employees (
 CREATE TABLE accounts (
     id INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
     username VARCHAR(25),
-	password VARCHAR(255) NOT NULL,
+	password VARBINARY(256) NOT NULL,
 	otp INT NOT NULL,
 	is_used BIT DEFAULT 0,
 	is_expired DATETIME NOT NULL

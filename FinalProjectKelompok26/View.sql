@@ -1,3 +1,5 @@
+USE EmployeeOvertimeSalaryManagement;
+
 -- View for jobs table
 IF OBJECT_ID('ViewJobs', 'V') IS NOT NULL
     DROP VIEW ViewJobs;
@@ -129,11 +131,11 @@ FROM roles;
 GO
 
 -- View for employee details
-IF OBJECT_ID('EmployeeDetails', 'V') IS NOT NULL
-    DROP VIEW EmployeeDetails;
+IF OBJECT_ID('ViewEmployeeDetails', 'V') IS NOT NULL
+    DROP VIEW ViewEmployeeDetails;
 GO
 
-CREATE VIEW EmployeeDetails AS
+CREATE VIEW ViewEmployeeDetails AS
 SELECT 
     e.id AS employee_id,
     a.username,
@@ -181,11 +183,11 @@ WHERE
 GO
 
 -- View for department details
-IF OBJECT_ID('DepartmentDetails', 'V') IS NOT NULL
-    DROP VIEW DepartmentDetails;
+IF OBJECT_ID('ViewDepartmentDetails', 'V') IS NOT NULL
+    DROP VIEW ViewDepartmentDetails;
 GO
 
-CREATE VIEW DepartmentDetails AS
+CREATE VIEW ViewDepartmentDetails AS
 SELECT 
     d.id AS department_id,
     d.name AS department_name,
@@ -206,11 +208,11 @@ LEFT JOIN
 GO
 
 -- View for account details
-IF OBJECT_ID('AccountDetails', 'V') IS NOT NULL
-    DROP VIEW AccountDetails;
+IF OBJECT_ID('ViewAccountDetails', 'V') IS NOT NULL
+    DROP VIEW ViewAccountDetails;
 GO
 
-CREATE VIEW AccountDetails AS
+CREATE VIEW ViewAccountDetails AS
 SELECT 
     a.id AS account_id,
     a.username,
@@ -224,21 +226,26 @@ SELECT
         WHEN a.is_used = 1 THEN 'true'
         ELSE 'false'
     END AS is_used,
-    STRING_AGG(DISTINCT r.name, ', ') WITHIN GROUP (ORDER BY r.name) AS roles,
-    STRING_AGG(DISTINCT p.name, ', ') WITHIN GROUP (ORDER BY p.name) AS permissions
+    STUFF((
+        SELECT DISTINCT ', ' + r.name
+        FROM roles r
+        INNER JOIN account_roles ar ON r.id = ar.role
+        WHERE ar.account = a.id
+        FOR XML PATH('')
+    ), 1, 2, '') AS roles,
+    STUFF((
+        SELECT DISTINCT ', ' + p.name
+        FROM permissions p
+        INNER JOIN role_permissions rp ON p.id = rp.permission
+        INNER JOIN roles r ON rp.role = r.id
+        INNER JOIN account_roles ar ON r.id = ar.role
+        WHERE ar.account = a.id
+        FOR XML PATH('')
+    ), 1, 2, '') AS permissions
 FROM 
-    accounts a
-LEFT JOIN 
-    account_roles ar ON a.id = ar.account
-LEFT JOIN 
-    roles r ON ar.role = r.id
-LEFT JOIN 
-    role_permissions rp ON r.id = rp.role
-LEFT JOIN 
-    permissions p ON rp.permission = p.id
-GROUP BY
-    a.id, a.username, a.password, a.otp, a.is_expired, a.is_used;
+    accounts a;
 GO
+
 
 
 -- View for role_permissions table

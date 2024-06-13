@@ -1,3 +1,4 @@
+USE EmployeeOvertimeSalaryManagement;
 
 --JOBS
 --Drop the insert procedure if it already exists
@@ -331,25 +332,31 @@ BEGIN
 END;
 GO
 
-
 --ACCOUNTS
 -- Drop the insert procedure if it already exists
 IF OBJECT_ID('InsertAccount', 'P') IS NOT NULL
     DROP PROCEDURE InsertAccount;
 GO
-
 -- Create the insert procedure
 CREATE PROCEDURE InsertAccount
     @username VARCHAR(25),
-    @password VARCHAR(255),
+    @password NVARCHAR(255), -- Password should be NVARCHAR for proper hashing
     @otp INT,
     @is_expired DATETIME
 AS
 BEGIN
+    -- Declare a variable to store the hashed password
+    DECLARE @hashedPassword VARBINARY(256);
+    
+    -- Hash the password using SHA-256 with conversion
+    SET @hashedPassword = HASHBYTES('SHA2_256', CONVERT(NVARCHAR(255), @password));
+    
+    -- Insert the account with the hashed password
     INSERT INTO accounts (username, password, otp, is_expired)
-    VALUES (@username, @password, @otp, @is_expired);
+    VALUES (@username, @hashedPassword, @otp, @is_expired);
 END;
 GO
+
 
 -- Drop the update procedure if it already exists
 IF OBJECT_ID('UpdateAccount', 'P') IS NOT NULL

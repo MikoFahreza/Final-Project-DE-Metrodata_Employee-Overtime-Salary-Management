@@ -1,3 +1,5 @@
+USE EmployeeOvertimeSalaryManagement;
+
 --Insert 10 rows into jobs
 EXEC InsertJob 'J1', 'Manager', 5000, 10000, 7000;
 EXEC InsertJob 'J2', 'Developer', 4000, 9000, 6000;

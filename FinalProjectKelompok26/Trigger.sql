@@ -1,3 +1,5 @@
+USE EmployeeOvertimeSalaryManagement;
+
 CREATE TRIGGER tr_insert_employee
 ON employees
 AFTER INSERT
