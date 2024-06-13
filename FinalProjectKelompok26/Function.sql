@@ -1,5 +1,3 @@
-USE EmployeeOvertimeSalaryManagement;
-
 CREATE FUNCTION GetTotalOvertimeCount (
     @employee_id INT,
     @month_year DATE

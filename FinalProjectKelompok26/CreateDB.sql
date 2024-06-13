@@ -103,7 +103,6 @@ CREATE TABLE job_histories (
 	status VARCHAR(10) NOT NULL,
 	job VARCHAR(10) NOT NULL,
 	department INT NOT NULL
-	CONSTRAINT fk_job_employee FOREIGN KEY (employee_id) REFERENCES employees(id),
 	CONSTRAINT fk_job_department FOREIGN KEY (department) REFERENCES departments(id),
 	CONSTRAINT fk_job_job FOREIGN KEY (job) REFERENCES jobs(id)
 );

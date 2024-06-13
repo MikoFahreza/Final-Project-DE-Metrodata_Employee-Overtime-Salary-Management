@@ -41,16 +41,15 @@ GO
 
 -- Insert 10 rows into locations
 EXEC InsertLocation '123 Main St', '12345', 'New York', 'NY', 1;
-EXEC InsertLocation '456 Elm St', '67890', 'Rio de Janeiro', '', 2;
-EXEC InsertLocation '789 Oak St', '54321', 'Berlin', '', 3;
-EXEC InsertLocation '101 Pine St', '09876', 'Beijing', '', 4;
-EXEC InsertLocation '202 Maple St', '11223', 'Cape Town', '', 5;
-EXEC InsertLocation '303 Cedar St', '44556', 'Sydney', '', 6;
-EXEC InsertLocation '404 Birch St', '77889', 'Moscow', '', 7;
-EXEC InsertLocation '505 Walnut St', '99001', 'Riyadh', '', 8;
-EXEC InsertLocation '606 Cherry St', '22334', 'Mexico City', '', 9;
-EXEC InsertLocation '707 Ash St', '55667', 'Kingston', '', 10;
-GO
+EXEC InsertLocation '456 Elm St', '23456', 'Los Angeles', 'CA', 1;
+EXEC InsertLocation '789 Oak St', '34567', 'Chicago', 'IL', 1;
+EXEC InsertLocation '101 Pine St', '45678', 'Houston', 'TX', 1;
+EXEC InsertLocation '202 Maple St', '56789', 'Phoenix', 'AZ', 1;
+EXEC InsertLocation '303 Cedar St', '67890', 'Philadelphia', 'PA', 1;
+EXEC InsertLocation '404 Walnut St', '78901', 'San Antonio', 'TX', 1;
+EXEC InsertLocation '505 Birch St', '89012', 'San Diego', 'CA', 1;
+EXEC InsertLocation '606 Pine St', '90123', 'Dallas', 'TX', 1;
+EXEC InsertLocation '707 Oak St', '01234', 'San Jose', 'CA', 1;
 
 -- Insert 10 rows into departments
 EXEC InsertDepartment 'HR', 1;
@@ -143,17 +142,6 @@ EXEC InsertAccountRole 9, 9;
 EXEC InsertAccountRole 10, 10;
 GO
 
--- Insert 10 rows into job_histories table
-EXEC InsertJobHistory 1, '2021-01-01', '2022-01-01', 'Active', 'J1', 1;
-EXEC InsertJobHistory 2, '2021-02-01', '2022-02-01', 'Active', 'J2', 2;
-EXEC InsertJobHistory 3, '2021-03-01', '2022-03-01', 'Active', 'J3', 3;
-EXEC InsertJobHistory 4, '2021-04-01', '2022-04-01', 'Active', 'J4', 4;
-EXEC InsertJobHistory 5, '2021-05-01', '2022-05-01', 'Active', 'J5', 5;
-EXEC InsertJobHistory 6, '2021-06-01', '2022-06-01', 'Active', 'J6', 6;
-EXEC InsertJobHistory 7, '2021-07-01', '2022-07-01', 'Active', 'J7', 7;
-EXEC InsertJobHistory 8, '2021-08-01', '2022-08-01', 'Active', 'J8', 8;
-EXEC InsertJobHistory 9, '2021-09-01', '2022-09-01', 'Active', 'J9', 9;
-EXEC InsertJobHistory 10, '2021-10-01', '2022-10-01', 'Active', 'J10', 10;
 
 -- Insert 10 rows into employee_overtime table
 EXEC InsertEmployeeOvertime 1, 'J1', '2024-01-01', 'Active', 5;
@@ -166,6 +154,3 @@ EXEC InsertEmployeeOvertime 7, 'J7', '2024-07-01', 'Active', 4;
 EXEC InsertEmployeeOvertime 8, 'J8', '2024-08-01', 'Active', 3;
 EXEC InsertEmployeeOvertime 9, 'J9', '2024-09-01', 'Active', 5;
 EXEC InsertEmployeeOvertime 10, 'J10', '2024-10-01', 'Active', 7;
-
-SELECT * FROM employee_overtime;
-SELECT * FROM job_histories;

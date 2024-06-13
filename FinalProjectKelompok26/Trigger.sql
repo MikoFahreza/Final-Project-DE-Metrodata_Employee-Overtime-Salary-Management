@@ -1,5 +1,3 @@
-USE EmployeeOvertimeSalaryManagement;
-
 CREATE TRIGGER tr_insert_employee
 ON employees
 AFTER INSERT
@@ -25,16 +23,26 @@ BEGIN
 END;
 GO
 
+-- Drop the trigger if it already exists
+IF OBJECT_ID('tr_delete_employee', 'TR') IS NOT NULL
+    DROP TRIGGER tr_delete_employee;
+GO
+
+-- TRIGGER FOR UPDATING JOB HISTORY ON EMPLOYEE DELETION
 CREATE TRIGGER tr_delete_employee
 ON employees
 AFTER DELETE
 AS
 BEGIN
-    INSERT INTO job_histories (employee_id, start_date, status, job, department)
-    SELECT id, GETDATE(), 'Resign', deleted.job, deleted.department
-    FROM deleted;
+    UPDATE jh
+    SET end_date = GETDATE(),
+        status = 'Resign'
+    FROM job_histories jh
+    INNER JOIN deleted d ON jh.employee_id = d.id;
 END;
 GO
+
+
 
 
 CREATE TRIGGER trgUpdateEmployeeSalary

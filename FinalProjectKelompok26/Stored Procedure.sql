@@ -318,19 +318,58 @@ BEGIN
 END;
 GO
 
--- Drop the delete procedure for employees if it already exists
+-- Drop the procedure if it already exists
 IF OBJECT_ID('DeleteEmployee', 'P') IS NOT NULL
     DROP PROCEDURE DeleteEmployee;
 GO
--- Create the delete procedure for employees
+
+-- Create the delete procedure
 CREATE PROCEDURE DeleteEmployee
-    @id INT
+    @employee_id INT
 AS
 BEGIN
-    DELETE FROM employees
-    WHERE id = @id;
+    -- Start a transaction
+    BEGIN TRANSACTION;
+    BEGIN TRY
+        -- Check if the employee exists
+        IF EXISTS (SELECT 1 FROM employees WHERE id = @employee_id)
+        BEGIN
+            -- Handle self-reference for manager
+            UPDATE employees
+            SET manager = NULL
+            WHERE manager = @employee_id;
+
+            -- Delete related data in account_roles
+            DELETE FROM account_roles WHERE account IN (SELECT id FROM accounts WHERE id = @employee_id);
+            
+            -- Delete related data in accounts
+            DELETE FROM accounts WHERE id = @employee_id;
+
+            -- Delete related data in employee_overtime
+            DELETE FROM employee_overtime WHERE employee_id = @employee_id;
+
+            -- Delete the employee
+            DELETE FROM employees WHERE id = @employee_id;
+        END
+        ELSE
+        BEGIN
+            PRINT 'Employee not found';
+        END
+
+        -- Commit the transaction
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+        -- Rollback the transaction if any error occurs
+        ROLLBACK TRANSACTION;
+        THROW;
+    END CATCH
 END;
 GO
+
+
+
+
 
 --ACCOUNTS
 -- Drop the insert procedure if it already exists
@@ -357,7 +396,6 @@ BEGIN
 END;
 GO
 
-
 -- Drop the update procedure if it already exists
 IF OBJECT_ID('UpdateAccount', 'P') IS NOT NULL
     DROP PROCEDURE UpdateAccount;
@@ -367,15 +405,22 @@ GO
 CREATE PROCEDURE UpdateAccount
     @id INT,
     @username VARCHAR(25),
-    @password VARCHAR(255),
+    @password NVARCHAR(255), -- Password should be NVARCHAR for proper hashing
     @otp INT,
     @is_used BIT,
     @is_expired DATETIME
 AS
 BEGIN
+    -- Declare a variable to store the hashed password
+    DECLARE @hashedPassword VARBINARY(256);
+
+    -- Hash the password using SHA-256 with conversion
+    SET @hashedPassword = HASHBYTES('SHA2_256', CONVERT(NVARCHAR(255), @password));
+
+    -- Update the account with the hashed password
     UPDATE accounts
     SET username = @username,
-        password = @password,
+        password = @hashedPassword,
         otp = @otp,
         is_used = @is_used,
         is_expired = @is_expired

@@ -16,3 +16,7 @@ SELECT * FROM ViewEmployeeOvertime;
 SELECT * FROM ViewEmployeeDetails;
 SELECT * FROM ViewDepartmentDetails;
 SELECT * FROM ViewAccountDetails;
+
+EXEC DeleteEmployee 7;
+GO
+TRUNCATE TABLE job_histories
