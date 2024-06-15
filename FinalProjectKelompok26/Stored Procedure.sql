@@ -259,11 +259,10 @@ GO
 
 
 --EMPLOYEES
--- Drop the insert procedure if it already exists
+-- Drop the insert procedure for employees if it already exists
 IF OBJECT_ID('InsertEmployee', 'P') IS NOT NULL
     DROP PROCEDURE InsertEmployee;
 GO
-
 -- Create the insert procedure
 CREATE PROCEDURE InsertEmployee
     @first_name VARCHAR(25),
@@ -278,16 +277,22 @@ CREATE PROCEDURE InsertEmployee
     @department INT
 AS
 BEGIN
+    -- Get the default salary from the jobs table
+    DECLARE @default_salary INT;
+    SELECT @default_salary = default_salary
+    FROM jobs
+    WHERE id = @job;
+
+    -- Insert the new employee with the provided department and default salary
     INSERT INTO employees (first_name, last_name, gender, email, phone, hire_date, salary, manager, job, department)
-    VALUES (@first_name, @last_name, @gender, @email, @phone, @hire_date, @salary, @manager, @job, @department);
+    VALUES (@first_name, @last_name, @gender, @email, @phone, @hire_date, @default_salary, @manager, @job, @department);
 END;
 GO
 
--- Drop the update procedure if it already exists
+-- Drop the update procedure for employees if it already exists
 IF OBJECT_ID('UpdateEmployee', 'P') IS NOT NULL
     DROP PROCEDURE UpdateEmployee;
 GO
-
 -- Create the update procedure
 CREATE PROCEDURE UpdateEmployee
     @id INT,
@@ -303,6 +308,13 @@ CREATE PROCEDURE UpdateEmployee
     @department INT
 AS
 BEGIN
+    -- Get the default salary from the jobs table
+    DECLARE @default_salary INT;
+    SELECT @default_salary = default_salary
+    FROM jobs
+    WHERE id = @job;
+
+    -- Update the employee details with the provided department and default salary
     UPDATE employees
     SET first_name = @first_name,
         last_name = @last_name,
@@ -310,7 +322,7 @@ BEGIN
         email = @email,
         phone = @phone,
         hire_date = @hire_date,
-        salary = @salary,
+        salary = @default_salary,  -- Update salary to default salary
         manager = @manager,
         job = @job,
         department = @department
@@ -318,11 +330,11 @@ BEGIN
 END;
 GO
 
+
 -- Drop the procedure if it already exists
 IF OBJECT_ID('DeleteEmployee', 'P') IS NOT NULL
     DROP PROCEDURE DeleteEmployee;
 GO
-
 -- Create the delete procedure
 CREATE PROCEDURE DeleteEmployee
     @employee_id INT
@@ -695,49 +707,48 @@ GO
 IF OBJECT_ID('InsertEmployeeOvertime', 'P') IS NOT NULL
     DROP PROCEDURE InsertEmployeeOvertime;
 GO
+
 -- Create the insert procedure
 CREATE PROCEDURE InsertEmployeeOvertime
     @employee_id INT,
-    @job VARCHAR(10),
     @month_year DATE,
-    @status VARCHAR(10),
     @overtime_count INT
 AS
 BEGIN
-    INSERT INTO employee_overtime (employee_id, job, month_year, status, overtime_count)
-    VALUES (@employee_id, @job, @month_year, @status, @overtime_count);
+    INSERT INTO employee_overtime (employee_id, month_year, overtime_count)
+    VALUES (@employee_id, @month_year, @overtime_count);
 END;
 GO
+
 
 -- Drop the update procedure for employee_overtime if it already exists
 IF OBJECT_ID('UpdateEmployeeOvertime', 'P') IS NOT NULL
     DROP PROCEDURE UpdateEmployeeOvertime;
 GO
---Create the update procedure
+
+-- Create the update procedure
 CREATE PROCEDURE UpdateEmployeeOvertime
     @id INT,
     @employee_id INT,
-    @job VARCHAR(10),
     @month_year DATE,
-    @status VARCHAR(10),
     @overtime_count INT
 AS
 BEGIN
     UPDATE employee_overtime
     SET employee_id = @employee_id,
-        job = @job,
         month_year = @month_year,
-        status = @status,
         overtime_count = @overtime_count
     WHERE id = @id;
 END;
 GO
 
+
 -- Drop the delete procedure for employee_overtime if it already exists
 IF OBJECT_ID('DeleteEmployeeOvertime', 'P') IS NOT NULL
     DROP PROCEDURE DeleteEmployeeOvertime;
 GO
---Create the delete procedure
+
+-- Create the delete procedure
 CREATE PROCEDURE DeleteEmployeeOvertime
     @id INT
 AS
@@ -746,5 +757,6 @@ BEGIN
     WHERE id = @id;
 END;
 GO
+
 
 

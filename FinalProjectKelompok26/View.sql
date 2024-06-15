@@ -299,9 +299,7 @@ CREATE VIEW ViewEmployeeOvertime AS
 SELECT 
     id,
     employee_id,
-    job,
     month_year,
-    status,
     overtime_count
 FROM employee_overtime;
 GO

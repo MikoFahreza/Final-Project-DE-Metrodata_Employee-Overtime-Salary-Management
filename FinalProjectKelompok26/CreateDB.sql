@@ -103,18 +103,18 @@ CREATE TABLE job_histories (
 	status VARCHAR(10) NOT NULL,
 	job VARCHAR(10) NOT NULL,
 	department INT NOT NULL
-	CONSTRAINT fk_job_department FOREIGN KEY (department) REFERENCES departments(id),
-	CONSTRAINT fk_job_job FOREIGN KEY (job) REFERENCES jobs(id)
 );
+
+-- Drop the employee_overtime table if it exists
+IF OBJECT_ID('employee_overtime', 'U') IS NOT NULL
+DROP TABLE employee_overtime;
+GO
 
 CREATE TABLE employee_overtime (
     id INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
 	employee_id INT NOT NULL,
-    job VARCHAR(10) NOT NULL,
 	month_year DATE,
-	status VARCHAR(10) NOT NULL,
 	overtime_count INT DEFAULT 0,
-	CONSTRAINT fk_overtime_employee FOREIGN KEY (employee_id) REFERENCES employees(id),
-	CONSTRAINT fk_overtime_job FOREIGN KEY (job) REFERENCES jobs(id)
+	CONSTRAINT fk_overtime_employee FOREIGN KEY (employee_id) REFERENCES employees(id)
 );
 

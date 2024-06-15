@@ -23,12 +23,13 @@ BEGIN
 END;
 GO
 
+
+
 -- Drop the trigger if it already exists
 IF OBJECT_ID('tr_delete_employee', 'TR') IS NOT NULL
     DROP TRIGGER tr_delete_employee;
 GO
-
--- TRIGGER FOR UPDATING JOB HISTORY ON EMPLOYEE DELETION
+-- Trigger for updating job history on employee deletion
 CREATE TRIGGER tr_delete_employee
 ON employees
 AFTER DELETE
@@ -43,56 +44,29 @@ END;
 GO
 
 
-
-
-CREATE TRIGGER trgUpdateEmployeeSalary
+--Trigger untuk update salary saat insert overtime
+IF OBJECT_ID('tr_insert_employee_overtime', 'TR') IS NOT NULL
+    DROP TRIGGER tr_insert_employee_overtime;
+GO
+CREATE TRIGGER tr_insert_employee_overtime
 ON employee_overtime
 AFTER INSERT, UPDATE
 AS
 BEGIN
     DECLARE @employee_id INT;
-    DECLARE @month_year DATE;
-    DECLARE @total_overtime_count INT;
-    DECLARE @job_id VARCHAR(10);
-    DECLARE @min_salary INT;
-    DECLARE @max_salary INT;
+    DECLARE @overtime_count INT;
     DECLARE @new_salary INT;
 
-    -- Ambil data dari inserted
-    SELECT TOP 1 
-        @employee_id = employee_id,
-        @month_year = month_year,
-        @job_id = job
+    -- Ambil nilai dari inserted row
+    SELECT @employee_id = employee_id, @overtime_count = overtime_count
     FROM inserted;
 
-    -- Hitung total overtime count untuk bulan tersebut
-    SET @total_overtime_count = dbo.GetTotalOvertimeCount(@employee_id, @month_year);
+    -- Hitung salary baru
+    SET @new_salary = dbo.CalculateNewSalary(@employee_id, @overtime_count);
 
-    -- Ambil informasi salary dari tabel jobs
-    SELECT 
-        @min_salary = min_salary,
-        @max_salary = max_salary
-    FROM jobs
-    WHERE id = @job_id;
-
-    -- Hitung new salary berdasarkan total overtime count
-    SELECT @new_salary = salary + @total_overtime_count * 100
-    FROM employees
-    WHERE id = @employee_id;
-
-    -- Pastikan new salary tidak melebihi batas min dan max salary
-    IF @new_salary < @min_salary
-    BEGIN
-        SET @new_salary = @min_salary;
-    END
-
-    IF @new_salary > @max_salary
-    BEGIN
-        SET @new_salary = @max_salary;
-    END
-
-    -- Update salary pada tabel employees
+    -- Update nilai salary di tabel employees
     UPDATE employees
     SET salary = @new_salary
     WHERE id = @employee_id;
 END;
+GO

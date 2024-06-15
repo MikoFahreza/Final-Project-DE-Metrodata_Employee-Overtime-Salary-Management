@@ -64,18 +64,19 @@ EXEC InsertDepartment 'Admin', 9;
 EXEC InsertDepartment 'Support', 10;
 GO
 
--- Insert 10 rows into employees
-EXEC InsertEmployee 'John', 'Doe', 'male', 'john.doe@example.com', '1234567890', '2020-01-01', 6000, NULL, 'J1', 1;
-EXEC InsertEmployee 'Jane', 'Doe', 'female', 'jane.doe@example.com', '2345678901', '2020-02-01', 7000, 1, 'J2', 2;
-EXEC InsertEmployee 'Jim', 'Beam', 'male', 'jim.beam@example.com', '3456789012', '2020-03-01', 8000, 2, 'J3', 3;
-EXEC InsertEmployee 'Jack', 'Daniels', 'male', 'jack.daniels@example.com', '4567890123', '2020-04-01', 5000, 3, 'J4', 4;
-EXEC InsertEmployee 'Johnny', 'Walker', 'male', 'johnny.walker@example.com', '5678901234', '2020-05-01', 9000, 4, 'J5', 5;
-EXEC InsertEmployee 'Jill', 'Valentine', 'female', 'jill.valentine@example.com', '6789012345', '2020-06-01', 6500, 5, 'J6', 6;
-EXEC InsertEmployee 'Chris', 'Redfield', 'male', 'chris.redfield@example.com', '7890123456', '2020-07-01', 7000, 6, 'J7', 7;
-EXEC InsertEmployee 'Claire', 'Redfield', 'female', 'claire.redfield@example.com', '8901234567', '2020-08-01', 6000, 7, 'J8', 8;
-EXEC InsertEmployee 'Leon', 'Kennedy', 'male', 'leon.kennedy@example.com', '9012345678', '2020-09-01', 5500, 8, 'J9', 9;
-EXEC InsertEmployee 'Ada', 'Wong', 'female', 'ada.wong@example.com', '0123456789', '2020-10-01', 6000, 9, 'J10', 10;
+-- Insert 10 rows into employees using the updated procedure
+EXEC InsertEmployee 'John', 'Doe', 'male', 'john.doe@example.com', '1234567890', '2020-01-01', 0, 'J1', 1, 1;
+EXEC InsertEmployee 'Jane', 'Doe', 'female', 'jane.doe@example.com', '2345678901', '2020-02-01', 0, 1, 'J2', 2;
+EXEC InsertEmployee 'Jim', 'Beam', 'male', 'jim.beam@example.com', '3456789012', '2020-03-01', 0, 2, 'J3', 3;
+EXEC InsertEmployee 'Jack', 'Daniels', 'male', 'jack.daniels@example.com', '4567890123', '2020-04-01', 0, 3, 'J4', 4;
+EXEC InsertEmployee 'Johnny', 'Walker', 'male', 'johnny.walker@example.com', '5678901234', '2020-05-01', 0, 4, 'J5', 5;
+EXEC InsertEmployee 'Jill', 'Valentine', 'female', 'jill.valentine@example.com', '6789012345', '2020-06-01', 0, 5, 'J6', 6;
+EXEC InsertEmployee 'Chris', 'Redfield', 'male', 'chris.redfield@example.com', '7890123456', '2020-07-01', 0, 6, 'J7', 7;
+EXEC InsertEmployee 'Claire', 'Redfield', 'female', 'claire.redfield@example.com', '8901234567', '2020-08-01', 0, 7, 'J8', 8;
+EXEC InsertEmployee 'Leon', 'Kennedy', 'male', 'leon.kennedy@example.com', '9012345678', '2020-09-01', 0, 8, 'J9', 9;
+EXEC InsertEmployee 'Ada', 'Wong', 'female', 'ada.wong@example.com', '0123456789', '2020-10-01', 0, 9, 'J10', 10;
 GO
+
 
 -- Insert 10 rows into accounts table
 EXEC InsertAccount 'jdoe', 'password1', 123456, '2024-01-01';
@@ -143,14 +144,4 @@ EXEC InsertAccountRole 10, 10;
 GO
 
 
--- Insert 10 rows into employee_overtime table
-EXEC InsertEmployeeOvertime 1, 'J1', '2024-01-01', 'Active', 5;
-EXEC InsertEmployeeOvertime 2, 'J2', '2024-02-01', 'Active', 8;
-EXEC InsertEmployeeOvertime 3, 'J3', '2024-03-01', 'Active', 10;
-EXEC InsertEmployeeOvertime 4, 'J4', '2024-04-01', 'Active', 7;
-EXEC InsertEmployeeOvertime 5, 'J5', '2024-05-01', 'Active', 6;
-EXEC InsertEmployeeOvertime 6, 'J6', '2024-06-01', 'Active', 9;
-EXEC InsertEmployeeOvertime 7, 'J7', '2024-07-01', 'Active', 4;
-EXEC InsertEmployeeOvertime 8, 'J8', '2024-08-01', 'Active', 3;
-EXEC InsertEmployeeOvertime 9, 'J9', '2024-09-01', 'Active', 5;
-EXEC InsertEmployeeOvertime 10, 'J10', '2024-10-01', 'Active', 7;
+
