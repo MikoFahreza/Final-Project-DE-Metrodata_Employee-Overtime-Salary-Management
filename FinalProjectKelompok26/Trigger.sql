@@ -1,4 +1,9 @@
-CREATE TRIGGER tr_insert_employee
+--TR Insert Employee
+-- Drop the trigger if it already exists
+IF OBJECT_ID('tr_insert_employee', 'TR') IS NOT NULL
+    DROP TRIGGER tr_insert_employee;
+GO
+CREATE TRIGGER tr_insert_employeeS
 ON employees
 AFTER INSERT
 AS
@@ -9,6 +14,11 @@ BEGIN
 END;
 GO
 
+--TR Update Employee
+-- Drop the trigger if it already exists
+IF OBJECT_ID('tr_update_employee', 'TR') IS NOT NULL
+    DROP TRIGGER tr_update_employee;
+GO
 CREATE TRIGGER tr_update_employee_job
 ON employees
 AFTER UPDATE
@@ -23,8 +33,7 @@ BEGIN
 END;
 GO
 
-
-
+--TR Delete Employee
 -- Drop the trigger if it already exists
 IF OBJECT_ID('tr_delete_employee', 'TR') IS NOT NULL
     DROP TRIGGER tr_delete_employee;
@@ -43,14 +52,13 @@ BEGIN
 END;
 GO
 
-
---Trigger untuk update salary saat insert overtime
+--TR update salary saat insert overtime
 IF OBJECT_ID('tr_insert_employee_overtime', 'TR') IS NOT NULL
     DROP TRIGGER tr_insert_employee_overtime;
 GO
 CREATE TRIGGER tr_insert_employee_overtime
 ON employee_overtime
-AFTER INSERT, UPDATE
+AFTER INSERT, UPDATE, DELETE
 AS
 BEGIN
     DECLARE @employee_id INT;

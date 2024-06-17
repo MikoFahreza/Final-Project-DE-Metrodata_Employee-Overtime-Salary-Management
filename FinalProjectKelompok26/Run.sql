@@ -15,12 +15,10 @@ SELECT * FROM ViewJobHistories;
 SELECT * FROM ViewEmployeeOvertime;
 SELECT * FROM ViewEmployeeDetails;
 SELECT * FROM ViewJobs;
-SELECT * FROM ViewDepartmentDetails;
-SELECT * FROM ViewAccountDetails;
+SELECT * FROM ViewDepartmentDetails;z
 
 EXEC DeleteEmployee 7;
 GO
-TRUNCATE TABLE job_histories
 
 
 -- Insert 10 rows into employee_overtime table

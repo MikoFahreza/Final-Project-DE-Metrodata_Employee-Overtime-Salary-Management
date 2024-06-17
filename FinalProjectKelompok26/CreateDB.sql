@@ -43,21 +43,18 @@ CREATE TABLE departments (
 CREATE TABLE employees (
     id INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
     first_name VARCHAR(25) NOT NULL,
-	last_name VARCHAR(25),
-	gender VARCHAR(10) DEFAULT 'male' NOT NULL,
-	email VARCHAR(25) NOT NULL UNIQUE,
-	phone VARCHAR(20),
-	hire_date DATE NOT NULL,
-	salary INT DEFAULT 0,
-	manager INT,
-	job VARCHAR(10) NOT NULL,
-	department INT NOT NULL
-	CONSTRAINT fk_employee_manager FOREIGN KEY (manager) REFERENCES employees(id),
-	CONSTRAINT fk_employee_job FOREIGN KEY (job) REFERENCES jobs(id),
-	CONSTRAINT fk_employee_department FOREIGN KEY (department) REFERENCES departments(id),
-	CONSTRAINT chk_gender CHECK (gender IN ('male', 'female')),
-    CONSTRAINT chk_email_format CHECK (email LIKE '%_@_%._%'),
-    CONSTRAINT chk_phone_format CHECK (phone NOT LIKE '%[^0-9]%')
+    last_name VARCHAR(25),
+    gender VARCHAR(10) DEFAULT 'male' NOT NULL,
+    email VARCHAR(50) NOT NULL UNIQUE,
+    phone VARCHAR(20),
+    hire_date DATE NOT NULL,
+    salary INT DEFAULT 0,
+    manager INT,
+    job VARCHAR(10) NOT NULL,
+    department INT NOT NULL,
+    CONSTRAINT fk_employee_manager FOREIGN KEY (manager) REFERENCES employees(id),
+    CONSTRAINT fk_employee_job FOREIGN KEY (job) REFERENCES jobs(id),
+    CONSTRAINT fk_employee_department FOREIGN KEY (department) REFERENCES departments(id)
 );
 
 CREATE TABLE accounts (

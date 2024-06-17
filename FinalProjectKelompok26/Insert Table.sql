@@ -142,6 +142,3 @@ EXEC InsertAccountRole 8, 8;
 EXEC InsertAccountRole 9, 9;
 EXEC InsertAccountRole 10, 10;
 GO
-
-
-

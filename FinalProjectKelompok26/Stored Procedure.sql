@@ -1,4 +1,150 @@
 USE EmployeeOvertimeSalaryManagement;
+GO
+
+--SP Login
+CREATE PROCEDURE sp_login
+    @username VARCHAR(25),
+    @password VARBINARY(256)
+AS
+BEGIN
+    -- Declare a variable to hold the result of password comparison
+    DECLARE @is_valid BIT
+
+    -- Check if the provided username and password match
+    SELECT @is_valid = CASE WHEN password = @password THEN 1 ELSE 0 END
+    FROM accounts
+    WHERE username = @username
+
+    -- If the user is valid, return success, otherwise return failure
+    IF @is_valid = 1
+    BEGIN
+        SELECT 'Login successful' AS Message
+    END
+    ELSE
+    BEGIN
+        SELECT 'Login failed' AS Message
+    END
+END
+GO
+
+--SP Forgot Password
+CREATE PROCEDURE sp_forgot_password
+    @username VARCHAR(25),
+    @new_password VARBINARY(256)
+AS
+BEGIN
+    -- Check if the provided username exists
+    IF EXISTS (SELECT 1 FROM accounts WHERE username = @username)
+    BEGIN
+        -- Update the password for the provided username
+        UPDATE accounts
+        SET password = @new_password
+        WHERE username = @username
+
+        SELECT 'Password updated successfully' AS Message
+    END
+    ELSE
+    BEGIN
+        SELECT 'Username not found' AS Message
+    END
+END
+GO
+
+--SP Generate OTP
+CREATE PROCEDURE sp_generate_otp
+    @username VARCHAR(25)
+AS
+BEGIN
+    DECLARE @employee_id INT
+    DECLARE @otp INT
+    DECLARE @expiry DATETIME
+
+    -- Check if the provided username exists
+    IF EXISTS (SELECT 1 FROM accounts WHERE username = @username)
+    BEGIN
+        -- Get the employee ID associated with the username
+        SELECT @employee_id = id FROM employees WHERE email = @username
+
+        -- Generate a random OTP
+        SET @otp = ABS(CHECKSUM(NEWID())) % 1000000 -- 6 digit OTP
+
+        -- Set the OTP expiry time (e.g., 10 minutes from now)
+        SET @expiry = DATEADD(MINUTE, 10, GETDATE())
+
+        -- Insert or update the OTP details
+        IF EXISTS (SELECT 1 FROM accounts WHERE id = @employee_id)
+        BEGIN
+            UPDATE accounts
+            SET otp = @otp, is_used = 0, is_expired = @expiry
+            WHERE id = @employee_id
+        END
+        ELSE
+        BEGIN
+            INSERT INTO accounts (username, otp, is_used, is_expired)
+            VALUES (@username, @otp, 0, @expiry)
+        END
+
+        SELECT @otp AS OTP, 'OTP generated successfully' AS Message
+    END
+    ELSE
+    BEGIN
+        SELECT 'Username not found' AS Message
+    END
+END
+GO
+
+--SP Verify OTP
+CREATE PROCEDURE sp_verify_otp
+    @username VARCHAR(25),
+    @otp INT
+AS
+BEGIN
+    DECLARE @employee_id INT
+    DECLARE @current_time DATETIME
+
+    -- Get the current time
+    SET @current_time = GETDATE()
+
+    -- Check if the provided username exists
+    IF EXISTS (SELECT 1 FROM accounts a JOIN employees e ON a.id = e.id WHERE e.email = @username)
+    BEGIN
+        -- Get the employee ID associated with the username
+        SELECT @employee_id = e.id 
+        FROM accounts a
+        JOIN employees e ON a.id = e.id
+        WHERE e.email = @username
+
+        -- Validate the OTP
+        IF EXISTS (
+            SELECT 1 
+            FROM accounts 
+            WHERE id = @employee_id AND otp = @otp AND is_used = 0 AND is_expired > @current_time
+        )
+        BEGIN
+            -- Mark the OTP as used
+            UPDATE accounts
+            SET is_used = 1
+            WHERE id = @employee_id
+
+            SELECT 'OTP validated successfully' AS Message
+        END
+        ELSE
+        BEGIN
+            SELECT 'Invalid or expired OTP' AS Message
+        END
+    END
+    ELSE
+    BEGIN
+        SELECT 'Username not found' AS Message
+    END
+END
+GO
+
+--SP Update Password
+
+
+
+-----------------------------------INSERT, UPDATE, DELETE--------------------------------------
 
 --JOBS
 --Drop the insert procedure if it already exists
@@ -19,7 +165,8 @@ BEGIN
 END;
 GO
 
---Drop the insert procedure if it already exists
+
+--Drop the update procedure if it already exists
 IF OBJECT_ID('UpdateJob', 'P') IS NOT NULL
     DROP PROCEDURE UpdateJob;
 GO
@@ -368,7 +515,7 @@ BEGIN
             PRINT 'Employee not found';
         END
 
-        -- Commit the transaction
+        -- Commit the transactionS
         COMMIT TRANSACTION;
     END TRY
     BEGIN CATCH
@@ -500,7 +647,7 @@ CREATE PROCEDURE InsertRole
 AS
 BEGIN
     INSERT INTO roles (name)
-    VALUES (@name);
+    VALUES (@name);SS
 END;
 GO
 
